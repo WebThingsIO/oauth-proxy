@@ -8,6 +8,7 @@ subdomain.addEventListener('input', function() {
     continueButton.disabled = true;
   }
 });
+subdomain.addEventListener('keydown', submitOnEnter);
 
 /**
  * Ensure that subdomain is valid:
@@ -29,7 +30,16 @@ function validateDomain() {
   return true;
 }
 
-continueButton.addEventListener('click', function() {
+function submitOnEnter(event) {
+  if (event.key === 'Enter' && validateDomain()) {
+    submit();
+    event.preventDefault();
+  }
+}
+
+function submit() {
   const base = `https://${subdomain.value}.mozilla-iot.org/oauth/authorize`;
   window.location = base + window.location.search;
-});
+}
+
+continueButton.addEventListener('click', submit);
